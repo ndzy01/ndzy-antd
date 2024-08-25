@@ -12,7 +12,7 @@ jobs:
         # 定时任务需要指定分支
         with: { ref: main }
       - run: yarn
-      - run: npm run dist
+      - run: npm run build
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
