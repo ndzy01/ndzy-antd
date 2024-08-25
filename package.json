@@ -1,6 +1,7 @@
 {
   "name": "ndzy-antd",
   "private": true,
+  "homepage": "/ndzy-antd/",
   "version": "1.0.0",
   "scripts": {
     "build": "rsbuild build",
