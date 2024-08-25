@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v3
         # 定时任务需要指定分支
         with: { ref: main }
-      - run: npm install
+      - run: yarn
       - run: npm run dist
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
