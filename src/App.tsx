@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Menu, theme } from 'antd';
+import { Layout, Menu, Spin, theme } from 'antd';
 import { useStore } from 'ndzy-utils';
+import { EditorMd } from './Md.tsx';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 
 const siderStyle: React.CSSProperties = {
   overflow: 'auto',
@@ -27,12 +28,9 @@ const App: React.FC = () => {
     store.api.article.find(keys[0]).then();
   }, [keys]);
 
-  console.log(store.articles);
-
   return (
     <Layout hasSider>
       <Sider style={siderStyle}>
-        <div className="demo-logo-vertical" />
         <Menu
           theme="dark"
           mode="inline"
@@ -42,21 +40,25 @@ const App: React.FC = () => {
         />
       </Sider>
       <Layout style={{ marginInlineStart: 200 }}>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
-        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-          <div
-            style={{
-              padding: 24,
-              textAlign: 'center',
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            {JSON.stringify(store.article)}
-          </div>
-        </Content>
+        {store.loading ? (
+          <Spin size="large" />
+        ) : (
+          <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+            <div
+              style={{
+                padding: 24,
+                background: colorBgContainer,
+                borderRadius: borderRadiusLG,
+              }}
+            >
+              {store.article?.content && (
+                <EditorMd type="view" value={store.article.content} />
+              )}
+            </div>
+          </Content>
+        )}
         <Footer style={{ textAlign: 'center' }}>
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+          ©{new Date().getFullYear()} Created by NDZY
         </Footer>
       </Layout>
     </Layout>

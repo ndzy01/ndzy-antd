@@ -12,9 +12,11 @@
   },
   "dependencies": {
     "antd": "^5.20.2",
+    "md-editor-rt": "4.15.0",
     "ndzy-utils": "^0.0.36",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@eslint/compat": "^1.1.1",
@@ -23,6 +25,7 @@
     "@rsbuild/plugin-react": "1.0.1-beta.16",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@types/uuid": "^10.0.0",
     "eslint": "^9.9.0",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
