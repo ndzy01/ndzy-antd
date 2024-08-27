@@ -1,15 +1,4 @@
-import React from 'react';
-import {
-  AppstoreOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
-import type { MenuProps } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { Layout, Menu, theme } from 'antd';
 import { useStore } from 'ndzy-utils';
 
@@ -26,26 +15,19 @@ const siderStyle: React.CSSProperties = {
   scrollbarColor: 'unset',
 };
 
-const items: MenuProps['items'] = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  AppstoreOutlined,
-  TeamOutlined,
-  ShopOutlined,
-].map((icon, index) => ({
-  key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
-}));
-
 const App: React.FC = () => {
   const store = useStore();
+  const [keys, setKeys] = useState<string[]>([]);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  useEffect(() => {
+    if (keys.length === 0) return;
+    store.api.article.find(keys[0]).then();
+  }, [keys]);
+
+  console.log(store.articles);
 
   return (
     <Layout hasSider>
@@ -54,8 +36,9 @@ const App: React.FC = () => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={['4']}
-          items={items}
+          items={store.articles as never}
+          selectedKeys={keys}
+          onSelect={({ selectedKeys }) => setKeys(selectedKeys)}
         />
       </Sider>
       <Layout style={{ marginInlineStart: 200 }}>
@@ -69,16 +52,7 @@ const App: React.FC = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            <p>long content</p>
-            {
-              // indicates very long content
-              Array.from({ length: 100 }, (_, index) => (
-                <React.Fragment key={index}>
-                  {index % 20 === 0 && index ? 'more' : '...'}
-                  <br />
-                </React.Fragment>
-              ))
-            }
+            {JSON.stringify(store.article)}
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
