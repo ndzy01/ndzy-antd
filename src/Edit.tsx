@@ -30,7 +30,11 @@ const EditArticle = ({ order, title, content, id }: any) => {
         name="order"
         rules={[{ required: true, message: '顺序不能为空' }]}
       >
-        <InputNumber style={{ width: '100%' }} placeholder="请输入顺序" />
+        <InputNumber
+          style={{ width: '100%' }}
+          placeholder="请输入顺序"
+          min={0}
+        />
       </Form.Item>
 
       <Button disabled={store.loading} htmlType="submit" type={'primary'}>
