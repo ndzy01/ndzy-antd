@@ -25,6 +25,7 @@ export default [
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
+      '@typescript-eslint/no-explicit-any': 1,
     },
   },
   { ignores: ['dist/'] },

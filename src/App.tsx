@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Menu, Spin, theme } from 'antd';
+import { Layout, Menu, Spin, theme, Collapse, CollapseProps } from 'antd';
 import { useStore } from 'ndzy-utils';
 import { EditorMd } from './Md.tsx';
+import AddArticle from './Add.tsx';
+import EditArticle from './Edit.tsx';
 
 const { Content, Footer, Sider } = Layout;
 
@@ -28,6 +30,26 @@ const App: React.FC = () => {
     store.api.article.find(keys[0]).then();
   }, [keys]);
 
+  const items: CollapseProps['items'] = [
+    {
+      key: '1',
+      label: '新增',
+      children: <AddArticle />,
+    },
+    {
+      key: '2',
+      label: '详情',
+      children: store.article?.content && (
+        <EditorMd type="view" value={store.article.content} />
+      ),
+    },
+    {
+      key: '3',
+      label: '编辑',
+      children: store.article?.content && <EditArticle {...store.article} />,
+    },
+  ];
+
   return (
     <Layout hasSider>
       <Sider style={siderStyle}>
@@ -51,9 +73,7 @@ const App: React.FC = () => {
                 borderRadius: borderRadiusLG,
               }}
             >
-              {store.article?.content && (
-                <EditorMd type="view" value={store.article.content} />
-              )}
+              <Collapse items={items} defaultActiveKey={['2']} />
             </div>
           </Content>
         )}
