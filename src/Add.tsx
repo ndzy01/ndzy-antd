@@ -1,4 +1,4 @@
-import { Button, Input, Form, InputNumber } from 'antd';
+import { Button, Input, Form, InputNumber, TreeSelect } from 'antd';
 import { useStore } from 'ndzy-utils';
 import { EditorMd } from './Md.tsx';
 
@@ -9,34 +9,48 @@ const AddArticle = () => {
     <Form
       initialValues={{ title: '', content: '', order: '' }}
       onFinish={(v) => {
-        console.log(v);
-        // store.api.article
-        //   .create({
-        //     ...v,
-        //     parentId:
-        //       v.parentId && v.parentId.length > 0 ? v.parentId[0] : undefined,
-        //     order: Number(v.order),
-        //   })
-        //   .then();
+        store.api.article
+          .create({
+            ...v,
+            order: Number(v.order),
+          })
+          .then();
       }}
     >
-      {/*<Form.Item name="parentId" type="custom">*/}
-      {/*  <ArticleSelectFormItem data={data} placeholder="请选择父级目录" />*/}
-      {/*</Form.Item>*/}
+      <Form.Item name="parentId">
+        <TreeSelect
+          showSearch
+          style={{ width: '100%' }}
+          dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+          placeholder="请选择父级目录"
+          allowClear
+          treeDefaultExpandAll
+          treeData={store.articles}
+        />
+      </Form.Item>
 
-      <Form.Item name="title" required>
+      <Form.Item
+        name="title"
+        rules={[{ required: true, message: '标题不能为空' }]}
+      >
         <Input placeholder="请输入标题" />
       </Form.Item>
 
-      <Form.Item name="content" required>
+      <Form.Item
+        name="content"
+        rules={[{ required: true, message: '内容不能为空' }]}
+      >
         <EditorMd />
       </Form.Item>
 
-      <Form.Item name="order">
+      <Form.Item
+        name="order"
+        rules={[{ required: true, message: '顺序不能为空' }]}
+      >
         <InputNumber placeholder="请输入顺序" style={{ width: '100%' }} />
       </Form.Item>
 
-      <Button disabled={store.loading} htmlType="submit">
+      <Button disabled={store.loading} htmlType="submit" type={'primary'}>
         提交
       </Button>
     </Form>
