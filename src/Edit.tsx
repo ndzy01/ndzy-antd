@@ -1,15 +1,27 @@
 import { Button, Input, Form, InputNumber } from 'antd';
 import { EditorMd } from './Md';
 import { useStore } from 'ndzy-utils';
+import { useNavigate } from 'react-router-dom';
 
-const EditArticle = ({ order, title, content, id }: any) => {
+const EditArticle = () => {
   const store = useStore();
+  const navigate = useNavigate();
 
   return (
     <Form
-      initialValues={{ title, content, order }}
+      initialValues={{
+        title: store.article?.title,
+        content: store.article?.content,
+        order: store.article?.order,
+      }}
       onFinish={(v) => {
-        store.api.article.save(id, { ...v, order: Number(v.order) }).then();
+        if (!store.article?.id) return;
+
+        store.api.article
+          .save(store.article?.id, { ...v, order: Number(v.order) })
+          .then(() => {
+            navigate('/');
+          });
       }}
     >
       <Form.Item

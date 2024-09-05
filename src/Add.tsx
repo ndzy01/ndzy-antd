@@ -1,11 +1,15 @@
-import { Button, Input, Form, InputNumber, TreeSelect } from 'antd';
+import { Button, Input, Form, InputNumber, TreeSelect, Spin } from 'antd';
 import { useStore } from 'ndzy-utils';
 import { EditorMd } from './Md.tsx';
+import { useNavigate } from 'react-router-dom';
 
 const AddArticle = () => {
+  const navigate = useNavigate();
   const store = useStore();
 
-  return (
+  return store.loading ? (
+    <Spin size="large" />
+  ) : (
     <Form
       initialValues={{ title: '', content: '', order: '' }}
       onFinish={(v) => {
@@ -14,7 +18,9 @@ const AddArticle = () => {
             ...v,
             order: Number(v.order),
           })
-          .then();
+          .then(() => {
+            navigate('/');
+          });
       }}
     >
       <Form.Item name="parentId">
