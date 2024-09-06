@@ -1,6 +1,6 @@
 import { Button, Input, Form, InputNumber, TreeSelect, Spin } from 'antd';
 import { useStore } from 'ndzy-utils';
-import { EditorMd } from './Md.tsx';
+import { EditorMd } from './Md';
 import { useNavigate } from 'react-router-dom';
 
 const AddArticle = () => {
