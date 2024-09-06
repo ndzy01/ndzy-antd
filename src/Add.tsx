@@ -19,7 +19,7 @@ const AddArticle = () => {
             order: Number(v.order),
           })
           .then(() => {
-            navigate('/');
+            navigate('/view');
           });
       }}
     >
