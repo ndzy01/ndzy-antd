@@ -52,7 +52,7 @@ const ILayout: React.FC = () => {
         <FloatButton
           icon={<HomeOutlined />}
           onClick={() => {
-            navigate('/');
+            navigate('/view');
           }}
         />
         <FloatButton icon={<MenuOutlined />} onClick={showDrawer} />
