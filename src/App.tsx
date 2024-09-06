@@ -104,11 +104,11 @@ const ILayout: React.FC = () => {
 const router = createBrowserRouter([
   {
     id: 'root',
-    path: '*',
+    path: '/',
     Component: ILayout,
     children: [
       {
-        path: '/',
+        path: '/view',
         Component: View,
       },
       {
