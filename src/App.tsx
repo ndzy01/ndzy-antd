@@ -1,35 +1,38 @@
 import React, { useState } from 'react';
-import { Button, Layout, Space, Tree, TreeProps } from 'antd';
+import { Drawer, FloatButton, Tree, TreeProps } from 'antd';
 import { useStore } from 'ndzy-utils';
 import {
   createBrowserRouter,
   RouterProvider,
-  Link,
   Outlet,
+  useNavigate,
 } from 'react-router-dom';
 import AddArticle from './Add.tsx';
 import EditArticle from './Edit.tsx';
 import { View } from './View.tsx';
-
-const { Content, Footer, Sider, Header } = Layout;
-
-const siderStyle: React.CSSProperties = {
-  overflow: 'auto',
-  height: '100vh',
-  position: 'fixed',
-  insetInlineStart: 0,
-  top: 0,
-  bottom: 0,
-  scrollbarWidth: 'thin',
-  scrollbarColor: 'unset',
-  padding: 16,
-};
+import {
+  DeleteOutlined,
+  EditOutlined,
+  HomeOutlined,
+  MenuOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
 
 const ILayout: React.FC = () => {
+  const navigate = useNavigate();
   const store = useStore();
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
+  const [open, setOpen] = useState(false);
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
 
   const onExpand: TreeProps['onExpand'] = (expandedKeysValue) => {
     setExpandedKeys(expandedKeysValue);
@@ -43,8 +46,43 @@ const ILayout: React.FC = () => {
   };
 
   return (
-    <Layout hasSider>
-      <Sider theme="light" style={siderStyle} collapsible>
+    <>
+      <Outlet />
+      <FloatButton.Group shape="circle" style={{ insetInlineEnd: 16 }}>
+        <FloatButton
+          icon={<HomeOutlined />}
+          onClick={() => {
+            navigate('/');
+          }}
+        />
+        <FloatButton icon={<MenuOutlined />} onClick={showDrawer} />
+        <FloatButton
+          icon={<PlusOutlined />}
+          onClick={() => {
+            navigate('/add');
+          }}
+        />
+        {store.article?.id && (
+          <>
+            <FloatButton
+              icon={<EditOutlined />}
+              onClick={() => {
+                navigate('/edit');
+              }}
+            />
+            <FloatButton
+              icon={<DeleteOutlined />}
+              onClick={() => {
+                store.api.article.del(store.article?.id as string).then(() => {
+                  window.location.reload();
+                });
+              }}
+            />
+          </>
+        )}
+        <FloatButton.BackTop visibilityHeight={0} />
+      </FloatButton.Group>
+      <Drawer title="目录" onClose={onClose} open={open}>
         <Tree
           treeData={store.articles as any}
           height={600}
@@ -58,36 +96,8 @@ const ILayout: React.FC = () => {
             return <div>{title}</div>;
           }}
         />
-      </Sider>
-      <Layout style={{ marginInlineStart: 200 }}>
-        <Header style={{ padding: 16, background: '#fff' }}>
-          <Space>
-            <Link to="/">首页</Link>
-            <Link to="/add"> 新增</Link>
-            <Button disabled={!store.article?.id}>
-              <Link to="/edit"> 编辑</Link>
-            </Button>
-            <Button
-              disabled={!store.article?.id}
-              onClick={() => {
-                if (!store.article) return;
-                store.api.article.del(store.article?.id).then(() => {
-                  window.location.reload();
-                });
-              }}
-            >
-              删除
-            </Button>
-          </Space>
-        </Header>
-        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-          <Outlet />
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          ©{new Date().getFullYear()} Created by NDZY
-        </Footer>
-      </Layout>
-    </Layout>
+      </Drawer>
+    </>
   );
 };
 
