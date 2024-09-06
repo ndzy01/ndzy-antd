@@ -23,6 +23,7 @@ export const View = () => {
   return (
     <>
       <MdPreview editorId={id} modelValue={store.article?.content} />
+      <MdCatalog editorId={id} scrollElement={scrollElement} />
       <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24, top: 24 }}>
         <FloatButton
           icon={<HomeOutlined />}
@@ -34,6 +35,9 @@ export const View = () => {
       </FloatButton.Group>
       <Drawer title="目录" onClose={onClose} open={open}>
         <MdCatalog editorId={id} scrollElement={scrollElement} />
+        <div style={{ display: 'none' }}>
+          <MdPreview editorId={id} modelValue={store.article?.content} />
+        </div>
       </Drawer>
     </>
   );
