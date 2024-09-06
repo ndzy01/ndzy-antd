@@ -1,11 +1,11 @@
 import React from 'react';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createHashRouter } from 'react-router-dom';
 import AddArticle from './Add';
 import EditArticle from './Edit';
 import { View } from './View';
 import Home from './Home';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: '/',
     element: <Home />,
