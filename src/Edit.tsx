@@ -20,7 +20,7 @@ const EditArticle = () => {
         store.api.article
           .save(store.article?.id, { ...v, order: Number(v.order) })
           .then(() => {
-            navigate('/');
+            navigate('/view');
           });
       }}
     >
