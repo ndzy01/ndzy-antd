@@ -11,6 +11,7 @@
     "preview": "rsbuild preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.4.0",
     "antd": "^5.20.2",
     "md-editor-rt": "4.15.0",
     "ndzy-utils": "^0.0.37",
