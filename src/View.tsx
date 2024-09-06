@@ -2,25 +2,36 @@ import { MdCatalog, MdPreview } from 'md-editor-rt';
 import { v4 as uuidv4 } from 'uuid';
 import 'md-editor-rt/lib/style.css';
 import { useStore } from 'ndzy-utils';
+import { Drawer, FloatButton } from 'antd';
+import React, { useState } from 'react';
+import { MenuOutlined } from '@ant-design/icons';
 
 const scrollElement = document.documentElement;
 export const View = () => {
   const id = 'id_md_' + uuidv4();
   const store = useStore();
+  const [open, setOpen] = useState(false);
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <>
-      <MdCatalog
-        style={{
-          position: 'fixed',
-          right: 24,
-          top: '11rem',
-          zIndex: '9999',
-        }}
-        editorId={id}
-        scrollElement={scrollElement}
-      />
-      <MdPreview editorId={id} modelValue={store.article?.content} />
-    </>
+    store.article?.content && (
+      <>
+        <MdPreview editorId={id} modelValue={store.article?.content} />
+        <FloatButton.Group
+          shape="circle"
+          style={{ insetInlineEnd: 16, top: 16 }}
+        >
+          <FloatButton icon={<MenuOutlined />} onClick={showDrawer} />
+        </FloatButton.Group>
+        <Drawer title="目录" onClose={onClose} open={open}>
+          <MdCatalog editorId={id} scrollElement={scrollElement} />
+        </Drawer>
+      </>
+    )
   );
 };
