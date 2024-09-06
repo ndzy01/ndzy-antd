@@ -7,9 +7,9 @@ import {
   Outlet,
   useNavigate,
 } from 'react-router-dom';
-import AddArticle from './Add.tsx';
-import EditArticle from './Edit.tsx';
-import { View } from './View.tsx';
+import AddArticle from './Add';
+import EditArticle from './Edit';
+import { View } from './View';
 import {
   DeleteOutlined,
   EditOutlined,
