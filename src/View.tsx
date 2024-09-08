@@ -2,9 +2,14 @@ import { MdCatalog, MdPreview } from 'md-editor-rt';
 import { v4 as uuidv4 } from 'uuid';
 import 'md-editor-rt/lib/style.css';
 import { useStore } from 'ndzy-utils';
-import { Drawer, FloatButton } from 'antd';
-import React, { useState } from 'react';
-import { HomeOutlined, MenuOutlined } from '@ant-design/icons';
+import { Drawer, FloatButton, Popconfirm, Spin } from 'antd';
+import React, { useEffect, useState } from 'react';
+import {
+  HomeOutlined,
+  MenuOutlined,
+  DeleteOutlined,
+  EditOutlined,
+} from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
 const scrollElement = document.documentElement;
@@ -20,7 +25,15 @@ export const View = () => {
     setOpen(false);
   };
 
-  return (
+  useEffect(() => {
+    if (!store.article?.id) {
+      navigate('/');
+    }
+  }, []);
+
+  return store.loading ? (
+    <Spin size="large" />
+  ) : (
     <>
       <MdPreview editorId={id} modelValue={store.article?.content} />
       <MdCatalog editorId={id} scrollElement={scrollElement} />
@@ -32,6 +45,37 @@ export const View = () => {
           }}
         />
         <FloatButton icon={<MenuOutlined />} onClick={showDrawer} />
+        <FloatButton
+          icon={<EditOutlined />}
+          onClick={() => {
+            navigate('/edit');
+          }}
+        />
+        <Popconfirm
+          title="删除后不可恢复"
+          description="确认删除？"
+          onConfirm={() => {
+            if (store.article?.id) {
+              store.api.article.del(store.article?.id as string).then(() => {
+                navigate('/');
+              });
+            }
+          }}
+          onCancel={() => {}}
+          okText="确认"
+          cancelText="取消"
+        >
+          <FloatButton
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              if (store.article?.id) {
+                store.api.article.del(store.article?.id as string).then(() => {
+                  navigate('/');
+                });
+              }
+            }}
+          />
+        </Popconfirm>
       </FloatButton.Group>
       <Drawer title="目录" onClose={onClose} open={open}>
         <MdCatalog editorId={id} scrollElement={scrollElement} />

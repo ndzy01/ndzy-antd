@@ -1,13 +1,18 @@
-import { Button, Input, Form, InputNumber } from 'antd';
+import { Button, Input, Form, InputNumber, Spin, FloatButton } from 'antd';
 import { EditorMd } from './Md';
 import { useStore } from 'ndzy-utils';
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { HomeOutlined } from '@ant-design/icons';
 
 const EditArticle = () => {
   const store = useStore();
   const navigate = useNavigate();
 
-  return (
+  return store.loading ? (
+    <Spin size="large" />
+  ) : (
+    <>
     <Form
       initialValues={{
         title: store.article?.title,
@@ -53,6 +58,15 @@ const EditArticle = () => {
         提交
       </Button>
     </Form>
+  <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24 }}>
+    <FloatButton
+      icon={<HomeOutlined />}
+      onClick={() => {
+        navigate('/');
+      }}
+    />
+  </FloatButton.Group>
+    </>
   );
 };
 
