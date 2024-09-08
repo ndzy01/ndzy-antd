@@ -65,16 +65,7 @@ export const View = () => {
           okText="确认"
           cancelText="取消"
         >
-          <FloatButton
-            icon={<DeleteOutlined />}
-            onClick={() => {
-              if (store.article?.id) {
-                store.api.article.del(store.article?.id as string).then(() => {
-                  navigate('/');
-                });
-              }
-            }}
-          />
+          <FloatButton icon={<DeleteOutlined />} />
         </Popconfirm>
       </FloatButton.Group>
       <Drawer title="目录" onClose={onClose} open={open}>
