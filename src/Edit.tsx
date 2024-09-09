@@ -13,7 +13,15 @@ const EditArticle = () => {
   return store.loading ? (
     <Spin size="large" />
   ) : (
-    <div ref={ref} style={{ padding: 16 }}>
+    <div
+      ref={ref}
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 16,
+      }}
+    >
       <Form
         initialValues={{
           title: store.article?.title,
