@@ -16,7 +16,7 @@ import ITree from './ITree.tsx';
 
 const scrollElement = document.documentElement;
 export const View = () => {
-  const { ref } = useFull();
+  const { ref, enterFullscreen } = useFull();
   const navigate = useNavigate();
   const id = 'id_md_' + uuidv4();
   const store = useStore();
@@ -39,6 +39,8 @@ export const View = () => {
     if (!store.article?.id) {
       navigate('/');
     }
+
+    enterFullscreen();
   }, [navigate, store.article?.id]);
 
   return store.loading ? (

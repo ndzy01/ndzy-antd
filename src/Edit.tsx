@@ -2,7 +2,6 @@ import { Button, Input, Form, InputNumber, Spin, FloatButton } from 'antd';
 import { EditorMd } from './Md';
 import { useStore } from 'ndzy-utils';
 import { useNavigate } from 'react-router-dom';
-import React from 'react';
 import { HomeOutlined } from '@ant-design/icons';
 import useFull from './useFull.ts';
 

@@ -7,9 +7,11 @@ import useFull from './useFull.ts';
 import ITree from './ITree.tsx';
 
 const Home: React.FC = () => {
-  const { ref } = useFull();
+  const { ref, enterFullscreen } = useFull();
   const navigate = useNavigate();
   const store = useStore();
+
+  enterFullscreen();
 
   return store.loading ? (
     <Spin size="large" />

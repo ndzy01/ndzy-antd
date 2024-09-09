@@ -11,7 +11,6 @@ import { useStore } from 'ndzy-utils';
 import { EditorMd } from './Md';
 import { useNavigate } from 'react-router-dom';
 import { HomeOutlined } from '@ant-design/icons';
-import React from 'react';
 import useFull from './useFull.ts';
 
 const AddArticle = () => {
