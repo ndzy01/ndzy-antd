@@ -4,7 +4,7 @@ import { pluginReact } from '@rsbuild/plugin-react';
 export default defineConfig({
   plugins: [pluginReact()],
   output: {
-    assetPrefix: 'https://www.ndzy01.com/ndzy-antd/',
+    assetPrefix: '/ndzy-antd/',
   },
   html: {
     title: 'ndzy',
