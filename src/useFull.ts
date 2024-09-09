@@ -8,7 +8,6 @@ const useFull = () => {
   });
 
   if (ref.current) {
-    console.log(111);
     enterFullscreen();
   }
 
