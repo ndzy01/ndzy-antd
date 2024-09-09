@@ -10,6 +10,7 @@ const useFull = () => {
   enterFullscreen();
 
   useUnmount(exitFullscreen);
+  console.log('------ndzy------', ref, '------ndzy------');
 
   return { ref };
 };
