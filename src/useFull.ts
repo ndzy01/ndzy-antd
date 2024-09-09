@@ -1,16 +1,17 @@
-import { useFullscreen, useUnmount } from 'ahooks';
+import { useFullscreen, useUnmount, useUpdateEffect } from 'ahooks';
+import { useStore } from 'ndzy-utils';
 import { useRef } from 'react';
 
 const useFull = () => {
+  const store = useStore();
   const ref = useRef(null);
   const [, { enterFullscreen, exitFullscreen }] = useFullscreen(ref, {
     pageFullscreen: true,
   });
 
-  enterFullscreen();
+  useUpdateEffect(enterFullscreen, [store.loading]);
 
   useUnmount(exitFullscreen);
-  console.log('------ndzy------', ref, '------ndzy------');
 
   return { ref };
 };
