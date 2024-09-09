@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useStore } from 'ndzy-utils';
 import { FloatButton, Spin } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import useFull from './useFull.ts';
-import ITree from './ITree.tsx';
+import useFull from './useFull';
+import ITree from './ITree';
 
 const Home: React.FC = () => {
   const { ref } = useFull();

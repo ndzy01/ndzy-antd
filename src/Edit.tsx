@@ -3,17 +3,15 @@ import { EditorMd } from './Md';
 import { useStore } from 'ndzy-utils';
 import { useNavigate } from 'react-router-dom';
 import { HomeOutlined } from '@ant-design/icons';
-import useFull from './useFull.ts';
 
 const EditArticle = () => {
-  const { ref } = useFull();
   const store = useStore();
   const navigate = useNavigate();
 
   return store.loading ? (
     <Spin size="large" />
   ) : (
-    <div ref={ref}>
+    <>
       <Form
         initialValues={{
           title: store.article?.title,
@@ -67,7 +65,7 @@ const EditArticle = () => {
           }}
         />
       </FloatButton.Group>
-    </div>
+    </>
   );
 };
 

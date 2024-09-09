@@ -4,7 +4,6 @@ import AddArticle from './Add';
 import EditArticle from './Edit';
 import { View } from './View';
 import Home from './Home';
-import './index.css'
 
 const router = createHashRouter([
   {

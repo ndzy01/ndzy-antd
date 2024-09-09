@@ -11,8 +11,8 @@ import {
   EditOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import useFull from './useFull.ts';
-import ITree from './ITree.tsx';
+import useFull from './useFull';
+import ITree from './ITree';
 
 const scrollElement = document.documentElement;
 export const View = () => {
