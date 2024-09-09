@@ -7,9 +7,7 @@ const useFull = () => {
     pageFullscreen: true,
   });
 
-  if (ref.current) {
-    enterFullscreen();
-  }
+  enterFullscreen();
 
   useUnmount(exitFullscreen);
 
