@@ -12,6 +12,7 @@ import {
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import useFull from './useFull.ts';
+import ITree from './ITree.tsx';
 
 const scrollElement = document.documentElement;
 export const View = () => {
@@ -20,10 +21,17 @@ export const View = () => {
   const id = 'id_md_' + uuidv4();
   const store = useStore();
   const [open, setOpen] = useState(false);
+  const [open1, setOpen1] = useState(false);
   const showDrawer = () => {
     setOpen(true);
   };
   const onClose = () => {
+    setOpen(false);
+  };
+  const showDrawer1 = () => {
+    setOpen(true);
+  };
+  const onClose1 = () => {
     setOpen(false);
   };
 
@@ -46,6 +54,7 @@ export const View = () => {
             navigate('/');
           }}
         />
+        <FloatButton icon={<MenuOutlined />} onClick={showDrawer1} />
         <FloatButton icon={<MenuOutlined />} onClick={showDrawer} />
         <FloatButton
           icon={<EditOutlined />}
@@ -70,7 +79,10 @@ export const View = () => {
           <FloatButton icon={<DeleteOutlined />} />
         </Popconfirm>
       </FloatButton.Group>
-      <Drawer title="目录" onClose={onClose} open={open} zIndex={999999999}>
+      <Drawer title="目录" onClose={onClose1} open={open1} zIndex={999999999}>
+        <ITree />
+      </Drawer>
+      <Drawer title="文章目录" onClose={onClose} open={open} zIndex={999999999}>
         <MdCatalog editorId={id} scrollElement={scrollElement} />
         <div style={{ display: 'none' }}>
           <MdPreview editorId={id} modelValue={store.article?.content} />
