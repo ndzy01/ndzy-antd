@@ -1,10 +1,36 @@
-import { MdCatalog, MdEditor, MdPreview } from 'md-editor-rt';
+import { MdCatalog, MdEditor, MdPreview, UploadImgEvent } from 'md-editor-rt';
 import { v4 as uuidv4 } from 'uuid';
 import 'md-editor-rt/lib/style.css';
+import { useStore } from 'ndzy-utils';
 
 const scrollElement = document.documentElement;
 export const EditorMd = ({ value, onChange, type = 'edit' }: any) => {
+  const store = useStore();
   const id = 'id_md_' + uuidv4();
+  const onUploadImg: UploadImgEvent = async (files, callback) => {
+    const res = await Promise.all(
+      files.map((file) => {
+        return new Promise((rev, rej) => {
+          const form = new FormData();
+          const name = file.name;
+          form.append('file', file);
+          form.append('name', name);
+
+          store.service
+            .post('/imgs', form, {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            })
+            .then((res) => rev(res))
+            .catch((error) => rej(error));
+        });
+      }),
+    );
+
+    callback(res.map((item: any) => item.data.url));
+  };
+
   return (
     <>
       {type === 'edit' ? (
@@ -12,6 +38,7 @@ export const EditorMd = ({ value, onChange, type = 'edit' }: any) => {
           editorId={id}
           modelValue={value}
           onChange={onChange}
+          onUploadImg={onUploadImg}
           toolbars={[
             'preview',
             '-',
