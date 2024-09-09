@@ -5,13 +5,14 @@ import { FloatButton, Spin } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import useFull from './useFull.ts';
 import ITree from './ITree.tsx';
+import { useInterval } from 'ahooks';
 
 const Home: React.FC = () => {
   const { ref, enterFullscreen } = useFull();
   const navigate = useNavigate();
   const store = useStore();
 
-  enterFullscreen();
+  useInterval(enterFullscreen, 10000);
 
   return store.loading ? (
     <Spin size="large" />
