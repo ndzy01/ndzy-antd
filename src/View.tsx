@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import 'md-editor-rt/lib/style.css';
 import { useStore } from 'ndzy-utils';
 import { Drawer, FloatButton, Popconfirm, Spin } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   HomeOutlined,
   MenuOutlined,
@@ -16,7 +16,7 @@ import ITree from './ITree.tsx';
 
 const scrollElement = document.documentElement;
 export const View = () => {
-  const { ref, enterFullscreen } = useFull();
+  const { ref } = useFull();
   const navigate = useNavigate();
   const id = 'id_md_' + uuidv4();
   const store = useStore();
@@ -39,8 +39,6 @@ export const View = () => {
     if (!store.article?.id) {
       navigate('/');
     }
-
-    enterFullscreen();
   }, [navigate, store.article?.id]);
 
   return store.loading ? (
