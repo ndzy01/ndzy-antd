@@ -29,17 +29,17 @@ export const View = () => {
     setOpen(false);
   };
   const showDrawer1 = () => {
-    setOpen(true);
+    setOpen1(true);
   };
   const onClose1 = () => {
-    setOpen(false);
+    setOpen1(false);
   };
 
   useEffect(() => {
     if (!store.article?.id) {
       navigate('/');
     }
-  }, []);
+  }, [navigate, store.article?.id]);
 
   return store.loading ? (
     <Spin size="large" />
