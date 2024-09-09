@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.4.0",
+    "ahooks": "^3.8.1",
     "antd": "^5.20.2",
     "md-editor-rt": "4.15.0",
     "ndzy-utils": "^0.0.40",

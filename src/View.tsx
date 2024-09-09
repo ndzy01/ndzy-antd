@@ -11,9 +11,11 @@ import {
   EditOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import useFull from './useFull.ts';
 
 const scrollElement = document.documentElement;
 export const View = () => {
+  const { ref } = useFull();
   const navigate = useNavigate();
   const id = 'id_md_' + uuidv4();
   const store = useStore();
@@ -34,7 +36,7 @@ export const View = () => {
   return store.loading ? (
     <Spin size="large" />
   ) : (
-    <>
+    <div ref={ref}>
       <MdPreview editorId={id} modelValue={store.article?.content} />
       <MdCatalog editorId={id} scrollElement={scrollElement} />
       <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24, top: 24 }}>
@@ -68,12 +70,12 @@ export const View = () => {
           <FloatButton icon={<DeleteOutlined />} />
         </Popconfirm>
       </FloatButton.Group>
-      <Drawer title="目录" onClose={onClose} open={open}>
+      <Drawer title="目录" onClose={onClose} open={open} zIndex={999999999}>
         <MdCatalog editorId={id} scrollElement={scrollElement} />
         <div style={{ display: 'none' }}>
           <MdPreview editorId={id} modelValue={store.article?.content} />
         </div>
       </Drawer>
-    </>
+    </div>
   );
 };

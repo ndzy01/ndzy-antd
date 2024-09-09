@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from 'ndzy-utils';
-import { FloatButton, Tree, TreeProps } from 'antd';
+import { FloatButton, Spin, Tree, TreeProps } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import useFull from './useFull.ts';
 
 const Home: React.FC = () => {
+  const { ref } = useFull();
   const navigate = useNavigate();
   const store = useStore();
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
@@ -24,8 +26,17 @@ const Home: React.FC = () => {
     });
   };
 
-  return (
-    <>
+  return store.loading ? (
+    <Spin size="large" />
+  ) : (
+    <div
+      ref={ref}
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <Tree
         treeData={store.articles as any}
         height={600}
@@ -47,7 +58,7 @@ const Home: React.FC = () => {
           }}
         />
       </FloatButton.Group>
-    </>
+    </div>
   );
 };
 
