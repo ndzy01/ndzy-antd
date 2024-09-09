@@ -1,19 +1,16 @@
 import { useFullscreen, useInterval } from 'ahooks';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 const useFull = () => {
   const ref = useRef(null);
-  const [s, setS] = useState(0);
   const [, { enterFullscreen, exitFullscreen }] = useFullscreen(ref, {
     pageFullscreen: true,
   });
 
   useInterval(() => {
-    if (s > 20 && document.querySelector('.ahooks-page-fullscreen')) return;
-
-    setS((s) => s + 1);
+    if (document.querySelector('.ahooks-page-fullscreen')) return;
     enterFullscreen();
-  }, 500);
+  }, 100);
 
   return { ref, enterFullscreen, exitFullscreen };
 };
