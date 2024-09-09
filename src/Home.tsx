@@ -20,6 +20,7 @@ const Home: React.FC = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        padding: 16,
       }}
     >
       <ITree />

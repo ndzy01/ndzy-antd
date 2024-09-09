@@ -21,7 +21,7 @@ const AddArticle = () => {
   return store.loading ? (
     <Spin size="large" />
   ) : (
-    <div ref={ref}>
+    <div ref={ref} style={{ padding: 16 }}>
       <Form
         initialValues={{ title: '', content: '', order: '' }}
         onFinish={(v) => {
