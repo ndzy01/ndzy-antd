@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from 'ndzy-utils';
 
+const { DirectoryTree } = Tree;
+
 const ITree = () => {
   const navigate = useNavigate();
   const store = useStore();
@@ -23,7 +25,7 @@ const ITree = () => {
   };
 
   return (
-    <Tree
+    <DirectoryTree
       treeData={store.articles as any}
       height={600}
       onExpand={onExpand}
@@ -31,10 +33,6 @@ const ITree = () => {
       autoExpandParent={autoExpandParent}
       onSelect={onSelect}
       selectedKeys={selectedKeys}
-      titleRender={(item) => {
-        const title = item.title as React.ReactNode;
-        return <div>{title}</div>;
-      }}
     />
   );
 };
