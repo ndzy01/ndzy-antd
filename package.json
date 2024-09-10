@@ -15,7 +15,7 @@
     "ahooks": "^3.8.1",
     "antd": "^5.20.2",
     "md-editor-rt": "4.15.0",
-    "ndzy-utils": "^0.0.41",
+    "ndzy-utils": "^0.0.42",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.1",
