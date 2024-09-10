@@ -4,6 +4,7 @@ import AddArticle from './Add';
 import EditArticle from './Edit';
 import { View } from './View';
 import Home from './Home';
+import { Watermark } from 'antd';
 
 const router = createHashRouter([
   {
@@ -25,7 +26,11 @@ const router = createHashRouter([
 ]);
 
 const App: React.FC = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <Watermark content="ndzy">
+      <RouterProvider router={router} />
+    </Watermark>
+  );
 };
 
 export default App;
