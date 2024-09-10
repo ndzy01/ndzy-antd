@@ -1,12 +1,21 @@
 import { Button, Input, Form, InputNumber, Spin, FloatButton } from 'antd';
 import { EditorMd } from './Md';
 import { useStore } from 'ndzy-utils';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { HomeOutlined } from '@ant-design/icons';
+import { useEffect } from 'react';
 
 const EditArticle = () => {
   const store = useStore();
+  const { id: aId } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!aId) {
+      navigate('/');
+    }
+    store.api.article.find(aId || '');
+  }, [navigate, aId]);
 
   return store.loading ? (
     <Spin size="large" />

@@ -9,14 +9,14 @@ import {
   MenuOutlined,
   DeleteOutlined,
   EditOutlined,
+  MenuFoldOutlined,
 } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import useFull from './useFull';
+import { useNavigate, useParams } from 'react-router-dom';
 import ITree from './ITree';
 
 const scrollElement = document.documentElement;
 export const View = () => {
-  const { ref } = useFull();
+  const { id: aId } = useParams();
   const navigate = useNavigate();
   const id = 'id_md_' + uuidv4();
   const store = useStore();
@@ -36,15 +36,16 @@ export const View = () => {
   };
 
   useEffect(() => {
-    if (!store.article?.id) {
+    if (!aId) {
       navigate('/');
     }
-  }, [navigate, store.article?.id]);
+    store.api.article.find(aId || '');
+  }, [navigate, aId]);
 
   return store.loading ? (
     <Spin size="large" />
   ) : (
-    <div ref={ref}>
+    <div>
       <MdPreview editorId={id} modelValue={store.article?.content} />
       <MdCatalog editorId={id} scrollElement={scrollElement} />
       <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24, top: 24 }}>
@@ -54,12 +55,12 @@ export const View = () => {
             navigate('/');
           }}
         />
+        <FloatButton icon={<MenuFoldOutlined />} onClick={showDrawer} />
         <FloatButton icon={<MenuOutlined />} onClick={showDrawer1} />
-        <FloatButton icon={<MenuOutlined />} onClick={showDrawer} />
         <FloatButton
           icon={<EditOutlined />}
           onClick={() => {
-            navigate('/edit');
+            navigate(`/edit/${aId}`);
           }}
         />
         <Popconfirm

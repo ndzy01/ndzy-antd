@@ -18,9 +18,8 @@ const ITree = () => {
   const onSelect: TreeProps['onSelect'] = (selectedKeysValue) => {
     setSelectedKeys(selectedKeysValue);
     if (selectedKeysValue.length === 0) return;
-    store.api.article.find(selectedKeysValue[0] as string).then(() => {
-      navigate('/view');
-    });
+
+    navigate(`/view/${selectedKeysValue[0]}`);
   };
 
   return (

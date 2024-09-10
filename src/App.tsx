@@ -11,7 +11,7 @@ const router = createHashRouter([
     element: <Home />,
   },
   {
-    path: '/view',
+    path: '/view/:id',
     element: <View />,
   },
   {
@@ -19,7 +19,7 @@ const router = createHashRouter([
     element: <AddArticle />,
   },
   {
-    path: '/edit',
+    path: '/edit/:id',
     element: <EditArticle />,
   },
 ]);
