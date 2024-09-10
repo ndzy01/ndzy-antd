@@ -17,7 +17,7 @@ export const EditorMd = ({ value, onChange, type = 'edit' }: any) => {
           form.append('name', name);
 
           store.service
-            .post('/imgs', form, {
+            .post('/img', form, {
               headers: {
                 'Content-Type': 'multipart/form-data',
               },
