@@ -1,12 +1,4 @@
-import {
-  Button,
-  Input,
-  Form,
-  InputNumber,
-  TreeSelect,
-  Spin,
-  FloatButton,
-} from 'antd';
+import { Button, Input, Form, TreeSelect, Spin, FloatButton } from 'antd';
 import { useStore } from 'ndzy-utils';
 import { EditorMd } from './Md';
 import { useNavigate } from 'react-router-dom';
