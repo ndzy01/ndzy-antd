@@ -27,14 +27,6 @@ const router = createHashRouter([
 ]);
 
 const App: React.FC = () => {
-  useEffect(() => {
-    fetch('https://www.ndzy01.com/ndzy-antd/version.json')
-      .then((res) => res.json())
-      .then((res) => {
-        localStorage.setItem('version', res.version);
-      });
-  }, []);
-
   useInterval(() => {
     fetch('https://www.ndzy01.com/ndzy-antd/version.json')
       .then((res) => res.json())
@@ -45,6 +37,7 @@ const App: React.FC = () => {
           message.info('网站已更新，将会在60秒之后刷新页面', 60);
 
           setTimeout(() => {
+            localStorage.setItem('version', res.version);
             window.location.reload();
           }, 60 * 1000);
         }
