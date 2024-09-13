@@ -42,16 +42,13 @@ const EditArticle = () => {
         initialValues={{
           title: store.article?.title,
           content: store.article?.content,
-          order: store.article?.order,
         }}
         onFinish={(v) => {
           if (!store.article?.id) return;
 
-          store.api.article
-            .save(store.article?.id, { ...v, order: Number(v.order) })
-            .then(() => {
-              navigate('/');
-            });
+          store.api.article.save(store.article?.id, { ...v }).then(() => {
+            navigate('/');
+          });
         }}
       >
         <Form.Item
@@ -66,17 +63,6 @@ const EditArticle = () => {
           rules={[{ required: true, message: '内容不能为空' }]}
         >
           <EditorMd />
-        </Form.Item>
-
-        <Form.Item
-          name="order"
-          rules={[{ required: true, message: '顺序不能为空' }]}
-        >
-          <InputNumber
-            style={{ width: '100%' }}
-            placeholder="请输入顺序"
-            min={0}
-          />
         </Form.Item>
 
         <Button disabled={store.loading} htmlType="submit" type={'primary'}>
