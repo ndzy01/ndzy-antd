@@ -4,9 +4,8 @@ import AddArticle from './Add';
 import EditArticle from './Edit';
 import { View } from './View';
 import Home from './Home';
-import { Watermark } from 'antd';
+import { message, Watermark } from 'antd';
 import { useInterval } from 'ahooks';
-import { useStore } from 'ndzy-utils';
 
 const router = createHashRouter([
   {
@@ -28,17 +27,30 @@ const router = createHashRouter([
 ]);
 
 const App: React.FC = () => {
-  const store = useStore();
   useEffect(() => {
-    store.service
-      .get('https://www.ndzy01.com/ndzy-antd/version.json')
+    fetch('https://www.ndzy01.com/ndzy-antd/version.json')
+      .then((res) => res.json())
       .then((res) => {
-        console.log('------ndzy------', res, '------ndzy------');
-        // localStorage.setItem('version', '');
+        localStorage.setItem('version', res.version);
       });
   }, []);
 
-  useInterval(() => {}, 1000);
+  useInterval(() => {
+    fetch('https://www.ndzy01.com/ndzy-antd/version.json')
+      .then((res) => res.json())
+      .then((res) => {
+        const version = localStorage.getItem('version');
+
+        if (version !== res.version) {
+          message.info('网站已更新，将会在60秒之后刷新页面', 60);
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 60 * 1000);
+        }
+      });
+  }, 1000);
+
   return (
     <Watermark content="ndzy">
       <RouterProvider router={router} />
