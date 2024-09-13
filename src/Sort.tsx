@@ -133,7 +133,7 @@ const SortTable = () => {
               row: Row,
             },
           }}
-          rowKey="key"
+          rowKey="id"
           columns={columns}
           dataSource={dataSource}
         />
