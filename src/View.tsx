@@ -2,13 +2,11 @@ import { MdCatalog, MdPreview } from 'md-editor-rt';
 import { v4 as uuidv4 } from 'uuid';
 import 'md-editor-rt/lib/style.css';
 import { useStore } from 'ndzy-utils';
-import { Drawer, FloatButton, Popconfirm, Spin } from 'antd';
+import { Drawer, FloatButton, Spin } from 'antd';
 import { useEffect, useState } from 'react';
 import {
   HomeOutlined,
   MenuOutlined,
-  DeleteOutlined,
-  EditOutlined,
   MenuFoldOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -57,28 +55,6 @@ export const View = () => {
         />
         <FloatButton icon={<MenuFoldOutlined />} onClick={showDrawer} />
         <FloatButton icon={<MenuOutlined />} onClick={showDrawer1} />
-        <FloatButton
-          icon={<EditOutlined />}
-          onClick={() => {
-            navigate(`/edit/${aId}`);
-          }}
-        />
-        <Popconfirm
-          title="删除后不可恢复"
-          description="确认删除？"
-          onConfirm={() => {
-            if (store.article?.id) {
-              store.api.article.del(store.article?.id as string).then(() => {
-                navigate('/');
-              });
-            }
-          }}
-          onCancel={() => {}}
-          okText="确认"
-          cancelText="取消"
-        >
-          <FloatButton icon={<DeleteOutlined />} />
-        </Popconfirm>
       </FloatButton.Group>
       <Drawer title="目录" onClose={onClose1} open={open1} zIndex={999999999}>
         <ITree />

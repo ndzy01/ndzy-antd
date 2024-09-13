@@ -1,7 +1,8 @@
-import { Tree, TreeProps } from 'antd';
+import { Popconfirm, Space, Tree, TreeProps } from 'antd';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from 'ndzy-utils';
+import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 
 const { DirectoryTree } = Tree;
 
@@ -19,9 +20,6 @@ const ITree = () => {
 
   const onSelect: TreeProps['onSelect'] = (selectedKeysValue) => {
     setSelectedKeys(selectedKeysValue);
-    if (selectedKeysValue.length === 0) return;
-
-    navigate(`/view/${selectedKeysValue[0]}`);
   };
 
   return (
@@ -33,6 +31,39 @@ const ITree = () => {
       autoExpandParent={autoExpandParent}
       onSelect={onSelect}
       selectedKeys={selectedKeys}
+      titleRender={(d) => {
+        console.log(d);
+        return (
+          <Space size={'large'}>
+            {d.title as string}
+
+            <EyeOutlined
+              onClick={() => {
+                navigate(`/view/${d.key}`);
+              }}
+            />
+
+            <EditOutlined
+              onClick={() => {
+                navigate(`/edit/${d.key}`);
+              }}
+            />
+
+            <Popconfirm
+              title="删除后不可恢复"
+              description="确认删除？"
+              onConfirm={() => {
+                store.api.article.del(d.key as string).then();
+              }}
+              onCancel={() => {}}
+              okText="确认"
+              cancelText="取消"
+            >
+              <DeleteOutlined />
+            </Popconfirm>
+          </Space>
+        );
+      }}
     />
   );
 };
