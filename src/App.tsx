@@ -49,7 +49,7 @@ const App: React.FC = () => {
           }, 60 * 1000);
         }
       });
-  }, 60 * 1000);
+  }, 10 * 1000);
 
   return (
     <Watermark content="ndzy">
