@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkndzy_antd=self.webpackChunkndzy_antd||[]).push([["7693"],{2339:function(n,t,e){e.d(t,{DL:function(){return u}}),e(4285);let u=n=>{let{transform:t}=n;return{...t,x:0}}}}]);
