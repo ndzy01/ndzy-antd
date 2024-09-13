@@ -2,7 +2,12 @@ import { Popconfirm, Space, Tree, TreeProps } from 'antd';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from 'ndzy-utils';
-import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  DragOutlined,
+  EditOutlined,
+  EyeOutlined,
+} from '@ant-design/icons';
 
 const { DirectoryTree } = Tree;
 
@@ -45,6 +50,12 @@ const ITree = () => {
             <EditOutlined
               onClick={() => {
                 navigate(`/edit/${d.key}`);
+              }}
+            />
+
+            <DragOutlined
+              onClick={() => {
+                navigate(`/sort/${d.key}`);
               }}
             />
 

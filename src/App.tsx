@@ -6,6 +6,7 @@ import { View } from './View';
 import Home from './Home';
 import { message, Watermark } from 'antd';
 import { useInterval } from 'ahooks';
+import SortTable from './Sort';
 
 const router = createHashRouter([
   {
@@ -23,6 +24,10 @@ const router = createHashRouter([
   {
     path: '/edit/:id',
     element: <EditArticle />,
+  },
+  {
+    path: '/sort/:id',
+    element: <SortTable />,
   },
 ]);
 

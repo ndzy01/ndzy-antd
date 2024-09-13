@@ -4,17 +4,34 @@ import { useStore } from 'ndzy-utils';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HomeOutlined } from '@ant-design/icons';
 import { useEffect } from 'react';
+import { useSetState } from 'ahooks';
 
 const EditArticle = () => {
   const store = useStore();
   const { id: aId } = useParams();
   const navigate = useNavigate();
+  const [s, setS] = useSetState({ list: [] });
 
   useEffect(() => {
     if (!aId) {
       navigate('/');
     }
     store.api.article.find(aId || '');
+    store.service(`/article/${aId}`).then((res) => {
+      if (res.data.root) {
+        store.service('/article/pid/0').then((res) => {
+          if (res.data) {
+            setS({ list: res.data });
+          }
+        });
+      } else {
+        store.service(`/article/pid/${res.data.parent.id}`).then((res) => {
+          if (res.data) {
+            setS({ list: res.data });
+          }
+        });
+      }
+    });
   }, [navigate, aId]);
 
   return store.loading ? (
@@ -66,6 +83,7 @@ const EditArticle = () => {
           提交
         </Button>
       </Form>
+
       <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24 }}>
         <FloatButton
           icon={<HomeOutlined />}
