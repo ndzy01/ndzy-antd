@@ -27,22 +27,32 @@ const router = createHashRouter([
 ]);
 
 const App: React.FC = () => {
-  useInterval(() => {
+  useEffect(() => {
     fetch('https://www.ndzy01.com/ndzy-antd/version.json')
       .then((res) => res.json())
       .then((res) => {
-        const version = localStorage.getItem('version');
-
-        if (version !== String(res.version)) {
-          message.info('网站已更新，将会在60秒之后刷新页面', 60);
-
-          setTimeout(() => {
-            localStorage.setItem('version', res.version);
-            window.location.reload();
-          }, 60 * 1000);
-        }
+        localStorage.setItem('version', res.version);
       });
-  }, 10 * 1000);
+  }, []);
+
+  useInterval(
+    () => {
+      fetch('https://www.ndzy01.com/ndzy-antd/version.json')
+        .then((res) => res.json())
+        .then((res) => {
+          const version = localStorage.getItem('version');
+
+          if (version !== String(res.version)) {
+            message.info('网站已更新，将会在60秒之后刷新页面', 60);
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 60 * 1000);
+          }
+        });
+    },
+    60 * 10 * 1000,
+  );
 
   return (
     <Watermark content="ndzy">
