@@ -32,7 +32,6 @@ const ITree = () => {
       onSelect={onSelect}
       selectedKeys={selectedKeys}
       titleRender={(d) => {
-        console.log(d);
         return (
           <Space size={'large'}>
             {d.title as string}
