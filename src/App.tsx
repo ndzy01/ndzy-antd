@@ -41,7 +41,7 @@ const App: React.FC = () => {
       .then((res) => {
         const version = localStorage.getItem('version');
 
-        if (version !== res.version) {
+        if (version !== String(res.version)) {
           message.info('网站已更新，将会在60秒之后刷新页面', 60);
 
           setTimeout(() => {
@@ -49,7 +49,7 @@ const App: React.FC = () => {
           }, 60 * 1000);
         }
       });
-  }, 1000);
+  }, 60 * 1000);
 
   return (
     <Watermark content="ndzy">
