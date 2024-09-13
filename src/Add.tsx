@@ -21,12 +21,11 @@ const AddArticle = () => {
   ) : (
     <>
       <Form
-        initialValues={{ title: '', content: '', order: '' }}
+        initialValues={{ title: '', content: '' }}
         onFinish={(v) => {
           store.api.article
             .create({
               ...v,
-              order: Number(v.order),
             })
             .then(() => {
               navigate('/');
@@ -57,13 +56,6 @@ const AddArticle = () => {
           rules={[{ required: true, message: '内容不能为空' }]}
         >
           <EditorMd />
-        </Form.Item>
-
-        <Form.Item
-          name="order"
-          rules={[{ required: true, message: '顺序不能为空' }]}
-        >
-          <InputNumber placeholder="请输入顺序" style={{ width: '100%' }} />
         </Form.Item>
 
         <Button disabled={store.loading} htmlType="submit" type={'primary'}>
