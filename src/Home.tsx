@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from 'ndzy-utils';
 import { FloatButton, Spin } from 'antd';
@@ -8,6 +8,10 @@ import ITree from './ITree';
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const store = useStore();
+
+  useEffect(() => {
+    store.api.article.query();
+  }, []);
 
   return store.loading ? (
     <Spin size="large" />
