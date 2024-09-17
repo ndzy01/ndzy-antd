@@ -14,20 +14,23 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { FloatButton, Table } from 'antd';
+import { FloatButton, Spin, Table } from 'antd';
 import type { TableColumnsType } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useStore } from 'ndzy-utils';
-import { HomeOutlined } from '@ant-design/icons';
+import { HomeOutlined, SaveOutlined } from '@ant-design/icons';
 
 interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
+  id: string;
+  title: string;
+  order: number;
 }
 
 const columns: TableColumnsType<DataType> = [
+  {
+    title: '唯一标识',
+    dataIndex: 'id',
+  },
   {
     title: '标题',
     dataIndex: 'title',
@@ -74,6 +77,7 @@ const Row = (props: RowProps) => {
 };
 
 const SortTable = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const store = useStore();
   const { id } = useParams();
@@ -89,19 +93,32 @@ const SortTable = () => {
   useEffect(() => {
     if (!id) return;
 
+    setLoading(true);
     store.service(`/article/${id}`).then((res) => {
       if (res.data.root) {
-        store.service('/article/pid/0').then((res) => {
-          if (res.data) {
-            setDataSource(res.data);
-          }
-        });
+        store
+          .service('/article/pid/0')
+          .then((res) => {
+            if (res.data) {
+              setDataSource(res.data);
+              setLoading(false);
+            }
+          })
+          .catch(() => {
+            setLoading(false);
+          });
       } else {
-        store.service(`/article/pid/${res.data.parent.id}`).then((res) => {
-          if (res.data) {
-            setDataSource(res.data);
-          }
-        });
+        store
+          .service(`/article/pid/${res.data.parent.id}`)
+          .then((res) => {
+            if (res.data) {
+              setDataSource(res.data);
+              setLoading(false);
+            }
+          })
+          .catch(() => {
+            setLoading(false);
+          });
       }
     });
   }, [id]);
@@ -109,21 +126,30 @@ const SortTable = () => {
   const onDragEnd = ({ active, over }: DragEndEvent) => {
     if (active.id !== over?.id) {
       setDataSource((prev) => {
-        const activeIndex = prev.findIndex((i) => i.key === active.id);
-        const overIndex = prev.findIndex((i) => i.key === over?.id);
+        const activeIndex = prev.findIndex((i) => i.id === active.id);
+        const overIndex = prev.findIndex((i) => i.id === over?.id);
+        const activeOrder = prev[activeIndex].order;
+        const overOrder = prev[overIndex].order;
+        prev[activeIndex].order = overOrder;
+        prev[activeIndex].isSort = true;
+        prev[overIndex].order = activeOrder;
+        prev[overIndex].isSort = true;
+
         return arrayMove(prev, activeIndex, overIndex);
       });
     }
   };
 
-  return (
+  return loading ? (
+    <Spin size="large" />
+  ) : (
     <DndContext
       sensors={sensors}
       modifiers={[restrictToVerticalAxis]}
       onDragEnd={onDragEnd}
     >
       <SortableContext
-        items={dataSource.map((i) => i.key)}
+        items={dataSource.map((i) => i.id)}
         strategy={verticalListSortingStrategy}
       >
         <Table
@@ -139,6 +165,31 @@ const SortTable = () => {
         />
 
         <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24 }}>
+          <FloatButton
+            icon={<SaveOutlined />}
+            onClick={() => {
+              if (
+                dataSource
+                  .filter((item) => item.isSort)
+                  .map((item) => ({ id: item.id, order: item.order }))
+                  .length === 0
+              ) {
+                return;
+              }
+
+              store
+                .service(`/article/updateOrder`, {
+                  data: dataSource
+                    .filter((item) => item.isSort)
+                    .map((item) => ({ id: item.id, order: item.order })),
+                  method: 'POST',
+                })
+                .then(() => {
+                  navigate('/');
+                });
+            }}
+          />
+
           <FloatButton
             icon={<HomeOutlined />}
             onClick={() => {
