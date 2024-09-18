@@ -50,7 +50,12 @@ const AddArticle = () => {
           <EditorMd />
         </Form.Item>
 
-        <Button disabled={store.loading} htmlType="submit" type={'primary'}>
+        <Button
+          disabled={store.loading}
+          htmlType="submit"
+          type={'primary'}
+          block
+        >
           提交
         </Button>
       </Form>

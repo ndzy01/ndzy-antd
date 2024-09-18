@@ -20,7 +20,7 @@
     "antd": "^5.20.2",
     "lodash": "^4.17.21",
     "md-editor-rt": "^4.20.0",
-    "ndzy-utils": "^3.0.3",
+    "ndzy-utils": "^3.0.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.1",

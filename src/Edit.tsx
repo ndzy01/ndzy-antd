@@ -1,38 +1,30 @@
-import { Button, Input, Form, InputNumber, Spin, FloatButton } from 'antd';
+import { Button, Input, Form, Spin, FloatButton } from 'antd';
 import { EditorMd } from './Md';
 import { useStore } from 'ndzy-utils';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HomeOutlined } from '@ant-design/icons';
-import { useEffect } from 'react';
-import { useSetState } from 'ahooks';
+import { useMount, useUpdateEffect } from 'ahooks';
 
 const EditArticle = () => {
   const store = useStore();
   const { id: aId } = useParams();
   const navigate = useNavigate();
-  const [s, setS] = useSetState({ list: [] });
 
-  useEffect(() => {
+  const init = () => {
     if (!aId) {
       navigate('/');
     }
+
     store.api.article.find(aId || '');
-    store.service(`/article/${aId}`).then((res) => {
-      if (res.data.root) {
-        store.service('/article/pid/0').then((res) => {
-          if (res.data) {
-            setS({ list: res.data });
-          }
-        });
-      } else {
-        store.service(`/article/pid/${res.data.parent.id}`).then((res) => {
-          if (res.data) {
-            setS({ list: res.data });
-          }
-        });
-      }
-    });
-  }, [navigate, aId]);
+  };
+
+  useUpdateEffect(() => {
+    init();
+  }, [aId]);
+
+  useMount(() => {
+    init();
+  });
 
   return store.loading ? (
     <Spin size="large" />
@@ -65,7 +57,12 @@ const EditArticle = () => {
           <EditorMd />
         </Form.Item>
 
-        <Button disabled={store.loading} htmlType="submit" type={'primary'}>
+        <Button
+          disabled={store.loading}
+          htmlType="submit"
+          type={'primary'}
+          block
+        >
           提交
         </Button>
       </Form>

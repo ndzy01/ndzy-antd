@@ -77,7 +77,6 @@ const Row = (props: RowProps) => {
 };
 
 const SortTable = () => {
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const store = useStore();
   const { id } = useParams();
@@ -93,33 +92,8 @@ const SortTable = () => {
   useEffect(() => {
     if (!id) return;
 
-    setLoading(true);
-    store.service(`/article/${id}`).then((res) => {
-      if (res.data.root) {
-        store
-          .service('/article/pid/0')
-          .then((res) => {
-            if (res.data) {
-              setDataSource(res.data);
-              setLoading(false);
-            }
-          })
-          .catch(() => {
-            setLoading(false);
-          });
-      } else {
-        store
-          .service(`/article/pid/${res.data.parent.id}`)
-          .then((res) => {
-            if (res.data) {
-              setDataSource(res.data);
-              setLoading(false);
-            }
-          })
-          .catch(() => {
-            setLoading(false);
-          });
-      }
+    store.api.article.initOrderData(id).then((res: any) => {
+      setDataSource(res || []);
     });
   }, [id]);
 
@@ -140,7 +114,7 @@ const SortTable = () => {
     }
   };
 
-  return loading ? (
+  return store.loading ? (
     <Spin size="large" />
   ) : (
     <DndContext
@@ -177,13 +151,12 @@ const SortTable = () => {
                 return;
               }
 
-              store
-                .service(`/article/updateOrder`, {
-                  data: dataSource
+              store.api.article
+                .updateOrder(
+                  dataSource
                     .filter((item) => item.isSort)
                     .map((item) => ({ id: item.id, order: item.order })),
-                  method: 'POST',
-                })
+                )
                 .then(() => {
                   navigate('/');
                 });
