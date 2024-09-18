@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { RouterProvider, createHashRouter } from 'react-router-dom';
+import { message, Watermark } from 'antd';
+import { useInterval } from 'ahooks';
+import './index.css';
 import AddArticle from './Add';
 import EditArticle from './Edit';
 import { View } from './View';
 import Home from './Home';
-import { message, Watermark } from 'antd';
-import { useInterval } from 'ahooks';
 import SortTable from './Sort';
 
 const router = createHashRouter([
