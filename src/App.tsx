@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { RouterProvider, createHashRouter } from 'react-router-dom';
-import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
+import { Auth0Provider } from '@auth0/auth0-react';
 import { message, Watermark } from 'antd';
-import { useDebounceEffect, useInterval } from 'ahooks';
+import { useInterval } from 'ahooks';
 import './index.css';
 import AddArticle from './Add';
 import EditArticle from './Edit';
@@ -39,8 +39,6 @@ const router = createHashRouter([
 ]);
 
 const App: React.FC = () => {
-  const { isAuthenticated } = useAuth0();
-
   useEffect(() => {
     fetch('https://www.ndzy01.com/ndzy-antd/version.json')
       .then((res) => res.json())
@@ -48,12 +46,6 @@ const App: React.FC = () => {
         localStorage.setItem('version', res.version);
       });
   }, []);
-
-  useDebounceEffect(() => {
-    if (!isAuthenticated) {
-      window.location.href = 'https://www.ndzy01.com/ndzy-antd/#/login';
-    }
-  }, [isAuthenticated]);
 
   useInterval(
     () => {
@@ -83,6 +75,7 @@ const App: React.FC = () => {
       }}
     >
       <Watermark content="ndzy">
+        <Login />
         <RouterProvider router={router} />
       </Watermark>
     </Auth0Provider>
