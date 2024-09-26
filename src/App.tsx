@@ -39,7 +39,7 @@ const router = createHashRouter([
 ]);
 
 const App: React.FC = () => {
-  const { user } = useAuth0();
+  const { isAuthenticated } = useAuth0();
 
   useEffect(() => {
     fetch('https://www.ndzy01.com/ndzy-antd/version.json')
@@ -50,10 +50,10 @@ const App: React.FC = () => {
   }, []);
 
   useDebounceEffect(() => {
-    if (!user) {
+    if (!isAuthenticated) {
       window.location.href = 'https://www.ndzy01.com/ndzy-antd/#/login';
     }
-  }, [user]);
+  }, [isAuthenticated]);
 
   useInterval(
     () => {
