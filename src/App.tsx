@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import { RouterProvider, createHashRouter } from 'react-router-dom';
+import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 import { message, Watermark } from 'antd';
-import { useInterval } from 'ahooks';
+import { useDebounceEffect, useInterval } from 'ahooks';
 import './index.css';
 import AddArticle from './Add';
 import EditArticle from './Edit';
 import { View } from './View';
 import Home from './Home';
 import SortTable from './Sort';
+import Login from './Login';
 
 const router = createHashRouter([
   {
@@ -30,9 +32,15 @@ const router = createHashRouter([
     path: '/sort/:id',
     element: <SortTable />,
   },
+  {
+    path: '/login',
+    element: <Login />,
+  },
 ]);
 
 const App: React.FC = () => {
+  const { user } = useAuth0();
+
   useEffect(() => {
     fetch('https://www.ndzy01.com/ndzy-antd/version.json')
       .then((res) => res.json())
@@ -40,6 +48,12 @@ const App: React.FC = () => {
         localStorage.setItem('version', res.version);
       });
   }, []);
+
+  useDebounceEffect(() => {
+    if (!user) {
+      window.location.href = 'https://www.ndzy01.com/ndzy-antd/#/login';
+    }
+  }, [user]);
 
   useInterval(
     () => {
@@ -49,7 +63,7 @@ const App: React.FC = () => {
           const version = localStorage.getItem('version');
 
           if (version !== String(res.version)) {
-            message.info('网站已更新，将会在60秒之后刷新页面', 60);
+            message.info('网站已更新，将会在60秒之后刷新页面', 60).then();
 
             setTimeout(() => {
               window.location.reload();
@@ -61,9 +75,17 @@ const App: React.FC = () => {
   );
 
   return (
-    <Watermark content="ndzy">
-      <RouterProvider router={router} />
-    </Watermark>
+    <Auth0Provider
+      domain="dev-486sij3lsfgsbudk.us.auth0.com"
+      clientId="7JrHdccCp7VfjBlxzdibNEWKVBZ78YOu"
+      authorizationParams={{
+        redirect_uri: 'https://www.ndzy01.com/ndzy-antd/',
+      }}
+    >
+      <Watermark content="ndzy">
+        <RouterProvider router={router} />
+      </Watermark>
+    </Auth0Provider>
   );
 };
 
