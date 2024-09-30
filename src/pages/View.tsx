@@ -10,7 +10,7 @@ import {
   MenuFoldOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
-import ITree from './ITree';
+import ITree from '../components/ITree.tsx';
 
 const scrollElement = document.documentElement;
 export const View = () => {

@@ -1,48 +1,41 @@
-import { Button, Input, Form, Spin, FloatButton } from 'antd';
-import { EditorMd } from './Md';
+import { Button, Input, Form, TreeSelect, Spin, FloatButton } from 'antd';
 import { useStore } from 'ndzy-utils';
-import { useNavigate, useParams } from 'react-router-dom';
+import { EditorMd } from '../components/Md.tsx';
+import { useNavigate } from 'react-router-dom';
 import { HomeOutlined } from '@ant-design/icons';
-import { useMount, useUpdateEffect } from 'ahooks';
 
-const EditArticle = () => {
-  const store = useStore();
-  const { id: aId } = useParams();
+const AddArticle = () => {
   const navigate = useNavigate();
-
-  const init = () => {
-    if (!aId) {
-      navigate('/');
-    }
-
-    store.api.article.find(aId || '');
-  };
-
-  useUpdateEffect(() => {
-    init();
-  }, [aId]);
-
-  useMount(() => {
-    init();
-  });
+  const store = useStore();
 
   return store.loading ? (
     <Spin size="large" />
   ) : (
     <>
       <Form
-        initialValues={{
-          title: store.article?.title,
-          content: store.article?.content,
-        }}
+        initialValues={{ title: '', content: '' }}
         onFinish={(v) => {
-          if (!store.article?.id) return;
-
-          store.api.article.save(store.article?.id, { ...v }).then(() => {
-            navigate('/');
-          });
+          store.api.article
+            .create({
+              ...v,
+            })
+            .then(() => {
+              navigate('/');
+            });
         }}
       >
+        <Form.Item name="parentId">
+          <TreeSelect
+            showSearch
+            style={{ width: '100%' }}
+            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+            placeholder="请选择父级目录"
+            allowClear
+            treeDefaultExpandAll
+            treeData={store.articles}
+          />
+        </Form.Item>
+
         <Form.Item
           name="title"
           rules={[{ required: true, message: '标题不能为空' }]}
@@ -66,7 +59,6 @@ const EditArticle = () => {
           提交
         </Button>
       </Form>
-
       <FloatButton.Group shape="circle" style={{ insetInlineEnd: 24 }}>
         <FloatButton
           icon={<HomeOutlined />}
@@ -79,4 +71,4 @@ const EditArticle = () => {
   );
 };
 
-export default EditArticle;
+export default AddArticle;

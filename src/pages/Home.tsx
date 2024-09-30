@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useStore } from 'ndzy-utils';
 import { FloatButton, Spin } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import ITree from './ITree';
+import ITree from '../components/ITree.tsx';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();

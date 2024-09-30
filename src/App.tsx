@@ -4,12 +4,12 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import { message, Watermark } from 'antd';
 import { useInterval } from 'ahooks';
 import './index.css';
-import AddArticle from './Add';
-import EditArticle from './Edit';
-import { View } from './View';
-import Home from './Home';
-import SortTable from './Sort';
-import Login from './Login';
+import AddArticle from './pages/Add.tsx';
+import EditArticle from './pages/Edit.tsx';
+import { View } from './pages/View.tsx';
+import Home from './pages/Home.tsx';
+import SortTable from './pages/Sort.tsx';
+import Login from './pages/Login.tsx';
 
 const router = createHashRouter([
   {
@@ -75,7 +75,6 @@ const App: React.FC = () => {
       }}
     >
       <Watermark content="ndzy">
-        <Login />
         <RouterProvider router={router} />
       </Watermark>
     </Auth0Provider>

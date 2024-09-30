@@ -5,7 +5,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
 
-  return <Button onClick={() => loginWithRedirect()}>登录</Button>;
+  return <Button onClick={() => loginWithRedirect()}>谷歌登录</Button>;
 };
 
 const LogoutButton = () => {
