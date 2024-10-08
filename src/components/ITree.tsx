@@ -31,6 +31,7 @@ const ITree = () => {
     <DirectoryTree
       treeData={store.articles as any}
       height={600}
+      style={{ minWidth: 350 }}
       virtual
       onExpand={onExpand}
       expandedKeys={expandedKeys}

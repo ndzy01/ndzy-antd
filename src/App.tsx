@@ -75,7 +75,9 @@ const App: React.FC = () => {
       }}
     >
       <Watermark content="ndzy">
-        <RouterProvider router={router} />
+        <div className={'ndzy-page'}>
+          <RouterProvider router={router} />
+        </div>
       </Watermark>
     </Auth0Provider>
   );

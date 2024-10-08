@@ -14,19 +14,19 @@ export default [
     {
       ...react,
       settings: {
-        react: { version: 'detect' }
-      }
+        react: { version: 'detect' },
+      },
     },
-    reactJsx
+    reactJsx,
   ]),
   {
     plugins: {
-      'react-hooks': fixupPluginRules(reactHooks)
+      'react-hooks': fixupPluginRules(reactHooks),
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      '@typescript-eslint/no-explicit-any': 0
-    }
+      '@typescript-eslint/no-explicit-any': 0,
+    },
   },
-  { ignores: ['dist/'] }
+  { ignores: ['dist/'] },
 ];

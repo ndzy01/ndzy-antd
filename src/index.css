@@ -1,7 +1,16 @@
 html,
 body,
 #root {
-  padding: 0;
   margin: 0;
   height: 100%;
+}
+
+#root {
+  padding: 8px;
+}
+
+.ndzy-page {
+  padding: 16px;
+  background-color: #f7f7f7;
+  border-radius: 12px;
 }
