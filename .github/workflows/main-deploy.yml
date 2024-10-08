@@ -1,5 +1,4 @@
-# 用于构建和部署 Rsbuild 站点到 GitHub Pages 的示例工作流
-name: Rsbuild Deployment
+name: 自动构建
 
 on:
   # 在推送到默认分支时触发
